@@ -361,9 +361,7 @@ static const NSRange kEmptyRange = { NSNotFound, 0 };
         markedText = [[NSMutableAttributedString alloc] init];
 
         [self updateTrackingAreas];
-        // NOTE: kUTTypeURL corresponds to NSPasteboardTypeURL but is available
-        //       on 10.7 without having been deprecated yet
-        [self registerForDraggedTypes:@[(__bridge NSString*) kUTTypeURL]];
+        [self registerForDraggedTypes:@[NSPasteboardTypeURL]];
     }
 
     return self;
@@ -895,10 +893,10 @@ float _glfwTransformYCocoa(float y)
 //////                       GLFW platform API                      //////
 //////////////////////////////////////////////////////////////////////////
 
-int _glfwCreateWindowCocoa(_GLFWwindow* window,
-                           const _GLFWwndconfig* wndconfig,
-                           const _GLFWctxconfig* ctxconfig,
-                           const _GLFWfbconfig* fbconfig)
+GLFWbool _glfwCreateWindowCocoa(_GLFWwindow* window,
+                                const _GLFWwndconfig* wndconfig,
+                                const _GLFWctxconfig* ctxconfig,
+                                const _GLFWfbconfig* fbconfig)
 {
     @autoreleasepool {
 
@@ -933,13 +931,31 @@ int _glfwCreateWindowCocoa(_GLFWwindow* window,
             if (!_glfwCreateContextOSMesa(window, ctxconfig, fbconfig))
                 return GLFW_FALSE;
         }
+
+        if (!_glfwRefreshContextAttribs(window, ctxconfig))
+            return GLFW_FALSE;
     }
+
+    if (wndconfig->mousePassthrough)
+        _glfwSetWindowMousePassthroughCocoa(window, GLFW_TRUE);
 
     if (window->monitor)
     {
         _glfwShowWindowCocoa(window);
         _glfwFocusWindowCocoa(window);
         acquireMonitor(window);
+
+        if (wndconfig->centerCursor)
+            _glfwCenterCursorInContentArea(window);
+    }
+    else
+    {
+        if (wndconfig->visible)
+        {
+            _glfwShowWindowCocoa(window);
+            if (wndconfig->focused)
+                _glfwFocusWindowCocoa(window);
+        }
     }
 
     return GLFW_TRUE;
@@ -1293,35 +1309,35 @@ void _glfwSetWindowMonitorCocoa(_GLFWwindow* window,
     } // autoreleasepool
 }
 
-int _glfwWindowFocusedCocoa(_GLFWwindow* window)
+GLFWbool _glfwWindowFocusedCocoa(_GLFWwindow* window)
 {
     @autoreleasepool {
     return [window->ns.object isKeyWindow];
     } // autoreleasepool
 }
 
-int _glfwWindowIconifiedCocoa(_GLFWwindow* window)
+GLFWbool _glfwWindowIconifiedCocoa(_GLFWwindow* window)
 {
     @autoreleasepool {
     return [window->ns.object isMiniaturized];
     } // autoreleasepool
 }
 
-int _glfwWindowVisibleCocoa(_GLFWwindow* window)
+GLFWbool _glfwWindowVisibleCocoa(_GLFWwindow* window)
 {
     @autoreleasepool {
     return [window->ns.object isVisible];
     } // autoreleasepool
 }
 
-int _glfwWindowMaximizedCocoa(_GLFWwindow* window)
+GLFWbool _glfwWindowMaximizedCocoa(_GLFWwindow* window)
 {
     @autoreleasepool {
     return [window->ns.object isZoomed];
     } // autoreleasepool
 }
 
-int _glfwWindowHoveredCocoa(_GLFWwindow* window)
+GLFWbool _glfwWindowHoveredCocoa(_GLFWwindow* window)
 {
     @autoreleasepool {
 
@@ -1339,7 +1355,7 @@ int _glfwWindowHoveredCocoa(_GLFWwindow* window)
     } // autoreleasepool
 }
 
-int _glfwFramebufferTransparentCocoa(_GLFWwindow* window)
+GLFWbool _glfwFramebufferTransparentCocoa(_GLFWwindow* window)
 {
     @autoreleasepool {
     return ![window->ns.object isOpaque] && ![window->ns.view isOpaque];
@@ -1589,9 +1605,9 @@ int _glfwGetKeyScancodeCocoa(int key)
     return _glfw.ns.scancodes[key];
 }
 
-int _glfwCreateCursorCocoa(_GLFWcursor* cursor,
-                           const GLFWimage* image,
-                           int xhot, int yhot)
+GLFWbool _glfwCreateCursorCocoa(_GLFWcursor* cursor,
+                                const GLFWimage* image,
+                                int xhot, int yhot)
 {
     @autoreleasepool {
 
@@ -1633,7 +1649,7 @@ int _glfwCreateCursorCocoa(_GLFWcursor* cursor,
     } // autoreleasepool
 }
 
-int _glfwCreateStandardCursorCocoa(_GLFWcursor* cursor, int shape)
+GLFWbool _glfwCreateStandardCursorCocoa(_GLFWcursor* cursor, int shape)
 {
     @autoreleasepool {
 
@@ -1816,9 +1832,9 @@ void _glfwGetRequiredInstanceExtensionsCocoa(char** extensions)
     }
 }
 
-int _glfwGetPhysicalDevicePresentationSupportCocoa(VkInstance instance,
-                                                   VkPhysicalDevice device,
-                                                   uint32_t queuefamily)
+GLFWbool _glfwGetPhysicalDevicePresentationSupportCocoa(VkInstance instance,
+                                                        VkPhysicalDevice device,
+                                                        uint32_t queuefamily)
 {
     return GLFW_TRUE;
 }
