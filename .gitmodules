@@ -1,6 +1,6 @@
 [submodule "src/clap"]
-	path = src/clap
+	path = libs/clap
 	url = https://github.com/free-audio/clap
 [submodule "src/glfw"]
-	path = src/glfw
+	path = libs/glfw
 	url = https://github.com/glfw/glfw
