@@ -7,13 +7,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
-#include "imgui/imgui.h"
+#include "imgui.h"
 
 #define _PI 3.1415926535897932384626433832795
 
 // see imgui_knob.cpp
 bool ImGui_Knob(const char* label, float* p_value, float v_min, float v_max, const char *fmt);
-
+bool ImGui_Knob(const char* label, float* p_value, float v_min, float v_max, const char *fmt)
+{
+    return false;
+}
 
 static const char *_features[] =
 {

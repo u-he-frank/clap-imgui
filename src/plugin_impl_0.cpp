@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"
-#include "imgui/imgui.h"
+#include "imgui.h"
 
 
 static const char *_features[] =

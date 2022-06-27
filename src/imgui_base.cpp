@@ -3,11 +3,11 @@
 
 #include "main.h"
 
-#include "glfw/include/GLFW/glfw3.h"
+#include "GLFW/glfw3.h"
 
-#include "imgui/imgui_internal.h" // so we can get the viewport associated with an ImGui window
-#include "imgui/backends/imgui_impl_glfw.h"
-#include "imgui/backends/imgui_impl_opengl3.h"
+#include "imgui_internal.h" // so we can get the viewport associated with an ImGui window
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
 
 void get_native_window_position(void *native_display, void *native_window,
   int *x, int *y, int *w, int *h); // always in screen coordinates

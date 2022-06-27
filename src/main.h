@@ -5,7 +5,7 @@
 
 #define _ALLOW_KEYWORD_MACROS
 #define alignas(x)
-#include "clap/include/clap/clap.h"
+#include "clap/clap.h"
 
 struct Plugin
 {
