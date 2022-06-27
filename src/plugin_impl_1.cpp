@@ -13,10 +13,6 @@
 
 // see imgui_knob.cpp
 bool ImGui_Knob(const char* label, float* p_value, float v_min, float v_max, const char *fmt);
-bool ImGui_Knob(const char* label, float* p_value, float v_min, float v_max, const char *fmt)
-{
-    return false;
-}
 
 static const char *_features[] =
 {
