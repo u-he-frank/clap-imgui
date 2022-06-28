@@ -30,10 +30,21 @@ ImGui is helpful for this example because:
 
 ---
 ### Usage
+#### MacOS
+```shell
+# Checkout
+git clone --recurse-submodules https://github.com/u-he-frank/clap-imgui
+cd clap-imgui
 
-The repo includes a Windows VC13 project, a MacOS XCode11 project, and a linux Makefile. There's no CMAKE-like build system included. There are no external dependencies so hopefully building is straightforward. There are also binaries available; see **Builds** below.
+# Generate project files
+cmake -G Xcode -B build
 
-*Note: linux does not compile on HEAD. The last commit that builds on linux is b5bc93c5.*
+# Build
+xcodebuild -project build/clap-imgui.xcodeproj -scheme clap-imgui build
+
+# Or open project
+open build/clap-imgui.xcodeproj
+```
 
 The example code exports two very basic plugins, **Volume/Pan** and **Tone Generator**. You should be able to prototype basic plugins by editing (or adding) a [src/plugin_impl_#.cpp](https://github.com/schwaaa/clap-imgui/blob/main/src/plugin_impl_0.cpp) file, which contains the actual audio plugin and UI implementation. The plugin descriptor and parameter definitions are at the top of the file, and `plugin_impl__draw()` contains the plugin-specific UI code.
 
