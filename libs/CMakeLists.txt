@@ -63,8 +63,11 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
  
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   
-  list (APPEND IMGUI_HEADERS_CXX_BACKEND_FILES  ${BACKEND_DIR}/imgui_impl_osx.h)
-  list (APPEND IMGUI_SOURCES_CXX_BACKEND_FILES  ${BACKEND_DIR}/imgui_impl_osx.mm)
+  list (APPEND IMGUI_HEADERS_CXX_BACKEND_FILES  ${BACKEND_DIR}/imgui_impl_glfw.h)
+  list (APPEND IMGUI_HEADERS_CXX_BACKEND_FILES  ${BACKEND_DIR}/imgui_impl_glfw.cpp)
+  list (APPEND IMGUI_SOURCES_CXX_BACKEND_FILES  ${BACKEND_DIR}/imgui_impl_opengl3.h)
+  list (APPEND IMGUI_SOURCES_CXX_BACKEND_FILES  ${BACKEND_DIR}/imgui_impl_opengl3_loader.h)
+  list (APPEND IMGUI_SOURCES_CXX_BACKEND_FILES  ${BACKEND_DIR}/imgui_impl_opengl3.cpp)
             
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
