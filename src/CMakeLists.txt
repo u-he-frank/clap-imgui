@@ -75,6 +75,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   target_link_libraries(clap-imgui PRIVATE -Wl,-z,defs)
   set_target_properties(clap-imgui PROPERTIES SUFFIX ".clap" PREFIX "")
   
+  target_compile_definitions(clap-imgui PRIVATE -DGLFW_EXPOSE_NATIVE_X11)
+
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 
   target_link_options(clap-imgui PRIVATE -exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/mac/macos-symbols.txt)
@@ -91,10 +93,14 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
             MACOSX_BUNDLE_SHORT_VERSION_STRING "1"
             MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/mac/Info.plist.in
             )
+  
+  target_compile_definitions(clap-imgui PRIVATE -DGLFW_EXPOSE_NATIVE_COCOA)
             
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
   set_target_properties(clap-imgui PROPERTIES SUFFIX ".clap" PREFIX "")
+
+  target_compile_definitions(clap-imgui PRIVATE -DGLFW_EXPOSE_NATIVE_WIN32)
 
 endif()
 
