@@ -7,8 +7,8 @@
 
 #include "main.h"
 
-#include "glfw/include/GLFW/glfw3.h"
-#include "glfw/include/GLFW/glfw3native.h"
+#include "GLFW/glfw3.h"
+#include "GLFW/glfw3native.h"
 
 bool imgui__attach(Plugin *plugin, void *native_display, void *native_window);
 
